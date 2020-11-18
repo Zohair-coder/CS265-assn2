@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     int is_valid_bar = 0;
     int is_valid_calma = 0;
     int is_valid_dol = 0;
-    size_t buffer = 16;
+    size_t buffer = 0;
 
     if (argc > 1)
     {
@@ -29,8 +29,9 @@ int main(int argc, char **argv)
         }
     }
 
-    char *current_message;
+    char *current_message = NULL;
     size_t msg_len = 0;
+
     while ((msg_len = getline(&current_message, &buffer, fin)) != -1)
     {
         current_message[msg_len - 1] = '\0';
