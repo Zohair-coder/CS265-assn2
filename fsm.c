@@ -55,6 +55,7 @@ int main(int argc, char **argv)
     }
     free(current_message);
     current_message = NULL;
+    fclose(fin);
 }
 
 // Reads one line from FILE*
