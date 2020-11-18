@@ -33,10 +33,6 @@ int main(int argc, char **argv)
     while (*current_message != '\0')
     {
         size_t msg_len = strlen(current_message);
-        is_valid_aldo = 0;
-        is_valid_bar = 0;
-        is_valid_calma = 0;
-        is_valid_dol = 0;
 
         is_valid_aldo = isValidAldo(current_message, msg_len);
         is_valid_bar = isValidBar(current_message, msg_len);
