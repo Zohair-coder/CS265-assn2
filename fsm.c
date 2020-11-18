@@ -133,7 +133,7 @@ int isValidBar(char *msg, int len)
         {
             return 0;
         }
-        if (*(msg + i) == 'X')
+        if (isX)
         {
             isPreviousG = *(msg + i - 1) == 'G';
             isPreviousPreviousH = *(msg + i - 2) == 'H';
