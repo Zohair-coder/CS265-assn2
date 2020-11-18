@@ -1,18 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 char *inputString(FILE *fp, size_t *len, size_t size);
 int isValidAldo(char *msg, int len);
 int isValidBar(char *msg, int len);
 int isValidCalma(char *msg, int len);
 int isValidDol(char *msg, int len);
+void printOK(char *msg);
+void printFAIL(char *msg);
 
 int main(int argc, char **argv)
 {
     FILE *fin = stdin;
     size_t *msg_len = (size_t *)malloc(sizeof(size_t));
-    int is_valid_msg = 0;
+    int is_valid_aldo = 0;
+    int is_valid_bar = 0;
+    int is_valid_calma = 0;
+    int is_valid_dol = 0;
 
     if (argc > 1)
     {
@@ -30,20 +36,23 @@ int main(int argc, char **argv)
         // printf("Current Message: %s\nLength: %i\n", current_message, *msg_len);
         // printf("First character of current message: %c\n", *current_message);
         // printf("Second character of current message: %c\n\n", *(current_message + 1));
-        is_valid_msg = 0;
+        is_valid_aldo = 0;
+        is_valid_bar = 0;
+        is_valid_calma = 0;
+        is_valid_dol = 0;
 
-        is_valid_msg = isValidAldo(current_message, *msg_len);
-        is_valid_msg = isValidBar(current_message, *msg_len);
-        is_valid_msg = isValidCalma(current_message, *msg_len);
-        is_valid_msg = isValidDol(current_message, *msg_len);
+        is_valid_aldo = isValidAldo(current_message, *msg_len);
+        is_valid_bar = isValidBar(current_message, *msg_len);
+        is_valid_calma = isValidCalma(current_message, *msg_len);
+        is_valid_dol = isValidDol(current_message, *msg_len);
 
-        if (is_valid_msg)
+        if (is_valid_aldo || is_valid_bar || is_valid_calma || is_valid_dol)
         {
-            printf("%s OK\n", current_message);
+            printOK(current_message);
         }
         else
         {
-            printf("%s FAIL\n", current_message);
+            printFAIL(current_message);
         }
 
         current_message = inputString(fin, msg_len, 10);
@@ -77,8 +86,25 @@ char *inputString(FILE *fp, size_t *len, size_t size)
 
 int isValidAldo(char *msg, int len)
 {
+    if (*msg != 'A')
+    {
+        return 0;
+    }
 
-    return 0;
+    for (int i = 1; i < len - 1; i++)
+    {
+        if (!isdigit(*(msg + i)))
+        {
+            return 0;
+        }
+    }
+
+    if (*(msg + len - 1) != 'F')
+    {
+        return 0;
+    }
+
+    return 1;
 }
 
 int isValidBar(char *msg, int len)
@@ -94,4 +120,13 @@ int isValidCalma(char *msg, int len)
 int isValidDol(char *msg, int len)
 {
     return 0;
+}
+
+void printOK(char *msg)
+{
+    printf("%s OK\n", msg);
+}
+void printFAIL(char *msg)
+{
+    printf("%s FAIL \n", msg);
 }
