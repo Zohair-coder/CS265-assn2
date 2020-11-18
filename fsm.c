@@ -102,7 +102,7 @@ int isValidAldo(char *msg, int len)
         }
     }
 
-    if (*(msg + len - 1) != 'F')
+    if (*(msg + len - 1) != 'F' || len == 2)
     {
         return 0;
     }
@@ -150,7 +150,7 @@ int isValidBar(char *msg, int len)
         }
     }
 
-    if (*(msg + len - 1) != 'G')
+    if (*(msg + len - 1) != 'G' || len == 2)
     {
         return 0;
     }
