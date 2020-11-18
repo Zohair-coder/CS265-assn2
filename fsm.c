@@ -86,6 +86,7 @@ char *inputString(FILE *fp, size_t buffer)
     return realloc(s, sizeof(char) * (len));
 }
 
+// checks if the string is a valid Aldo.
 int isValidAldo(char *msg, int len)
 {
     if (*msg != 'A')
@@ -109,6 +110,7 @@ int isValidAldo(char *msg, int len)
     return 1;
 }
 
+// checks if the string is a valid Bar.
 int isValidBar(char *msg, int len)
 {
     int isPreviousG;
@@ -155,6 +157,7 @@ int isValidBar(char *msg, int len)
     return 1;
 }
 
+// checks if the string is a valid Calma.
 int isValidCalma(char *msg, int len)
 {
     int isR;
@@ -195,6 +198,7 @@ int isValidCalma(char *msg, int len)
     return 1;
 }
 
+// checks if the string is a valid Dol.
 int isValidDol(char *msg, int len)
 {
     if (*msg != 'D')
@@ -215,10 +219,13 @@ int isValidDol(char *msg, int len)
     return 1;
 }
 
+// prints an OK message in green when called
 void printOK(char *msg)
 {
     printf("%s \033[0;32mOK\033[0m\n", msg);
 }
+
+// prints a FAIL message in red when called
 void printFAIL(char *msg)
 {
     printf("%s \033[0;31mFAIL\033[0m\n", msg);
