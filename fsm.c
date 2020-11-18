@@ -111,6 +111,9 @@ int isValidBar(char *msg, int len)
 {
     int isPreviousG;
     int isPreviousPreviousH;
+    int isH;
+    int isG;
+    int isX;
     if (*msg != 'B')
     {
         return 0;
@@ -123,7 +126,10 @@ int isValidBar(char *msg, int len)
 
     for (int i = 1; i < len; i++)
     {
-        if (*(msg + i) != 'H' && *(msg + i) != 'G' && *(msg + i) != 'X')
+        isH = *(msg + i) == 'H';
+        isG = *(msg + i) == 'G';
+        isX = *(msg + i) == 'X';
+        if (!isH && !isG && !isX)
         {
             return 0;
         }
