@@ -1,3 +1,15 @@
+// Zohair ul Hasan
+// Date: 11/19/2020
+// ========================
+// Assignment - C Messages
+// ========================
+// Takes a string, either from stdin or from
+// a text file separated by newlines.
+// Outputs OK or FAIL after checking if the
+// string meets the criteria for one of the
+// following tests: aldo, bar, calma, dol
+// USAGE: ./fsm [file-name]
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +30,8 @@ int main(int argc, char **argv)
     int is_valid_calma = 0;
     int is_valid_dol = 0;
 
+    // check if an argument was passed
+    // if so, check if the file exists
     if (argc > 1)
     {
         fin = fopen(argv[1], "r");
@@ -34,8 +48,8 @@ int main(int argc, char **argv)
 
     while ((msg_len = getline(&current_message, &buffer, fin)) != -1)
     {
-        current_message[msg_len - 1] = '\0';
-        msg_len--;
+        current_message[msg_len - 1] = '\0'; // remove the "\n" character and replace it with NULL terminator
+        msg_len--;                           // adjust message length after removing \n
         is_valid_aldo = isValidAldo(current_message, msg_len);
         is_valid_bar = isValidBar(current_message, msg_len);
         is_valid_calma = isValidCalma(current_message, msg_len);
@@ -55,7 +69,8 @@ int main(int argc, char **argv)
     fclose(fin);
 }
 
-// checks if the string is a valid Aldo.
+// checks if the string is a valid Aldo
+// return 1 if true, 0 if false
 int isValidAldo(char *msg, int len)
 {
     if (*msg != 'A')
@@ -63,7 +78,7 @@ int isValidAldo(char *msg, int len)
         return 0;
     }
 
-    for (int i = 1; i < len - 1; i++)
+    for (int i = 1; i < len - 1; i++) // check string from second character to second-last character
     {
         if (!isdigit(*(msg + i)))
         {
@@ -71,6 +86,9 @@ int isValidAldo(char *msg, int len)
         }
     }
 
+    // check if last character is not F or the length of the string is not 2
+    // if last character is F and string length is 2, the string would be AF which does not satisfy our requirements
+    // because we need at least one digit between A and F
     if (*(msg + len - 1) != 'F' || len == 2)
     {
         return 0;
@@ -79,7 +97,8 @@ int isValidAldo(char *msg, int len)
     return 1;
 }
 
-// checks if the string is a valid Bar.
+// checks if the string is a valid Bar
+// return 1 if true, 0 if false
 int isValidBar(char *msg, int len)
 {
     int isPreviousG;
@@ -93,12 +112,12 @@ int isValidBar(char *msg, int len)
         return 0;
     }
 
-    if (*msg == 'B' && len == 1)
+    if (*msg == 'B' && len == 1) // if B is the only character in the string
     {
         return 1;
     }
 
-    for (int i = 1; i < len; i++)
+    for (int i = 1; i < len; i++) // check second character to last character in the string
     {
         isH = *(msg + i) == 'H';
         isG = *(msg + i) == 'G';
@@ -119,14 +138,15 @@ int isValidBar(char *msg, int len)
         }
     }
 
-    if (*(msg + len - 1) != 'G' || len == 2)
+    if (*(msg + len - 1) != 'G' || len == 2) // if last character is not G, or if the string is BG
     {
         return 0;
     }
     return 1;
 }
 
-// checks if the string is a valid Calma.
+// checks if the string is a valid Calma
+// return 1 if true, 0 if false
 int isValidCalma(char *msg, int len)
 {
     int isR;
@@ -138,12 +158,12 @@ int isValidCalma(char *msg, int len)
         return 0;
     }
 
-    if (*msg == 'C' && len == 1)
+    if (*msg == 'C' && len == 1) // if C is the only character in the string
     {
         return 1;
     }
 
-    for (int i = 1; i < len; i++)
+    for (int i = 1; i < len; i++) // check second character to last character.
     {
         isR = *(msg + i) == 'R';
         isT = *(msg + i) == 'T';
@@ -159,7 +179,7 @@ int isValidCalma(char *msg, int len)
         }
     }
 
-    if (cnt % 2 != 0)
+    if (cnt % 2 != 0) // if T appears an even number of times
     {
         return 0;
     }
@@ -167,7 +187,8 @@ int isValidCalma(char *msg, int len)
     return 1;
 }
 
-// checks if the string is a valid Dol.
+// checks if the string is a valid Dol
+// return 1 if true, 0 if false
 int isValidDol(char *msg, int len)
 {
     if (*msg != 'D')
@@ -180,7 +201,7 @@ int isValidDol(char *msg, int len)
         return 0;
     }
 
-    if (!isValidAldo(msg + 3, len - 3) && !isValidCalma(msg + 3, len - 3))
+    if (!isValidAldo(msg + 3, len - 3) && !isValidCalma(msg + 3, len - 3)) // length needs to be adjusted since the first three characters of the string aren't being sent
     {
         return 0;
     }
