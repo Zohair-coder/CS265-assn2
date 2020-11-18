@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-char *inputString(FILE *fp, size_t *len, size_t size);
+char *inputString(FILE *fp, size_t size);
 int isValidAldo(char *msg, int len);
 int isValidBar(char *msg, int len);
 int isValidCalma(char *msg, int len);
@@ -14,7 +14,6 @@ void printFAIL(char *msg);
 int main(int argc, char **argv)
 {
     FILE *fin = stdin;
-    size_t *msg_len = (size_t *)malloc(sizeof(size_t));
     int is_valid_aldo = 0;
     int is_valid_bar = 0;
     int is_valid_calma = 0;
@@ -30,21 +29,23 @@ int main(int argc, char **argv)
         }
     }
 
-    char *current_message = inputString(fin, msg_len, 10);
+    char *current_message = inputString(fin, 10);
     while (*current_message != '\0')
     {
         // printf("Current Message: %s\nLength: %i\n", current_message, *msg_len);
         // printf("First character of current message: %c\n", *current_message);
         // printf("Second character of current message: %c\n\n", *(current_message + 1));
+
+        size_t msg_len = strlen(current_message);
         is_valid_aldo = 0;
         is_valid_bar = 0;
         is_valid_calma = 0;
         is_valid_dol = 0;
 
-        is_valid_aldo = isValidAldo(current_message, *msg_len);
-        is_valid_bar = isValidBar(current_message, *msg_len);
-        is_valid_calma = isValidCalma(current_message, *msg_len);
-        is_valid_dol = isValidDol(current_message, *msg_len);
+        is_valid_aldo = isValidAldo(current_message, msg_len);
+        is_valid_bar = isValidBar(current_message, msg_len);
+        is_valid_calma = isValidCalma(current_message, msg_len);
+        is_valid_dol = isValidDol(current_message, msg_len);
 
         if (is_valid_aldo || is_valid_bar || is_valid_calma || is_valid_dol)
         {
@@ -55,33 +56,33 @@ int main(int argc, char **argv)
             printFAIL(current_message);
         }
 
-        current_message = inputString(fin, msg_len, 10);
+        current_message = inputString(fin, 10);
     }
 }
 
-char *inputString(FILE *fp, size_t *len, size_t size)
+char *inputString(FILE *fp, size_t size)
 {
     //The size is extended by the input with the value of the provisional
     char *str;
     int ch;
-    *len = 0;
+    size_t len = 0;
     str = realloc(NULL, sizeof(char) * size); //size is start size
     if (!str)
         return str;
 
     while (EOF != (ch = fgetc(fp)) && ch != '\n')
     {
-        str[(*len)++] = ch;
-        if (*len == size)
+        str[len++] = ch;
+        if (len == size)
         {
             str = realloc(str, sizeof(char) * (size += 16));
             if (!str)
                 return str;
         }
     }
-    str[*len++] = '\0';
+    str[len++] = '\0';
 
-    return realloc(str, sizeof(char) * (*len));
+    return realloc(str, sizeof(char) * (len));
 }
 
 int isValidAldo(char *msg, int len)
@@ -195,7 +196,22 @@ int isValidCalma(char *msg, int len)
 
 int isValidDol(char *msg, int len)
 {
-    return 0;
+    if (*msg != 'D')
+    {
+        return 0;
+    }
+
+    if (!isdigit(*(msg + 1)) && !isdigit(*(msg + 2)))
+    {
+        return 0;
+    }
+
+    if (!isValidAldo(msg + 3, len - 3) && !isValidCalma(msg + 3, len - 3))
+    {
+        return 0;
+    }
+
+    return 1;
 }
 
 void printOK(char *msg)
