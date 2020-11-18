@@ -109,7 +109,40 @@ int isValidAldo(char *msg, int len)
 
 int isValidBar(char *msg, int len)
 {
-    return 0;
+    int isPreviousG;
+    int isPreviousPreviousH;
+    if (*msg != 'B')
+    {
+        return 0;
+    }
+
+    if (*msg == 'B' && len == 1)
+    {
+        return 1;
+    }
+
+    for (int i = 1; i < len; i++)
+    {
+        if (*(msg + i) != 'H' && *(msg + i) != 'G' && *(msg + i) != 'X')
+        {
+            return 0;
+        }
+        if (*(msg + i) == 'X')
+        {
+            isPreviousG = *(msg + i - 1) == 'G';
+            isPreviousPreviousH = *(msg + i - 2) == 'H';
+            if (!isPreviousG || !isPreviousPreviousH)
+            {
+                return 0;
+            }
+        }
+    }
+
+    if (*(msg + len - 1) != 'G')
+    {
+        return 0;
+    }
+    return 1;
 }
 
 int isValidCalma(char *msg, int len)
