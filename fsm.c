@@ -32,10 +32,6 @@ int main(int argc, char **argv)
     char *current_message = inputString(fin, 10);
     while (*current_message != '\0')
     {
-        // printf("Current Message: %s\nLength: %i\n", current_message, *msg_len);
-        // printf("First character of current message: %c\n", *current_message);
-        // printf("Second character of current message: %c\n\n", *(current_message + 1));
-
         size_t msg_len = strlen(current_message);
         is_valid_aldo = 0;
         is_valid_bar = 0;
