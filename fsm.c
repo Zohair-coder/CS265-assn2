@@ -18,6 +18,7 @@ int main(int argc, char **argv)
     int is_valid_bar = 0;
     int is_valid_calma = 0;
     int is_valid_dol = 0;
+    const int buffer = 16;
 
     if (argc > 1)
     {
@@ -47,27 +48,32 @@ int main(int argc, char **argv)
         {
             printFAIL(current_message);
         }
+        free(current_message);
+        current_message = NULL;
 
-        current_message = inputString(fin, 10);
+        current_message = inputString(fin, buffer);
     }
 }
 
-char *inputString(FILE *fp, size_t size)
+// Reads one line from FILE*
+// Creates space for buffer amount of bytes at a time
+// If more bytes are required than buffer, it allocates another 16 bytes
+// Returns char* which needs to be freed once used
+char *inputString(FILE *fp, size_t buffer)
 {
-    //The size is extended by the input with the value of the provisional
     char *s;
     int c;
     size_t len = 0;
-    s = realloc(NULL, sizeof(char) * size); //size is start size
+    s = realloc(NULL, sizeof(char) * buffer);
     if (!s)
         return s;
 
     while (EOF != (c = fgetc(fp)) && c != '\n')
     {
         s[len++] = c;
-        if (len == size)
+        if (len == buffer)
         {
-            s = realloc(s, sizeof(char) * (size += 16));
+            s = realloc(s, sizeof(char) * (buffer += 16));
             if (!s)
                 return s;
         }
@@ -208,9 +214,9 @@ int isValidDol(char *msg, int len)
 
 void printOK(char *msg)
 {
-    printf("\033[0m%s \033[0;32mOK\n", msg);
+    printf("%s \033[0;32mOK\033[0m\n", msg);
 }
 void printFAIL(char *msg)
 {
-    printf("\033[0m%s \033[0;31mFAIL \n", msg);
+    printf("%s \033[0;31mFAIL\033[0m\n", msg);
 }
