@@ -55,26 +55,26 @@ int main(int argc, char **argv)
 char *inputString(FILE *fp, size_t size)
 {
     //The size is extended by the input with the value of the provisional
-    char *str;
-    int ch;
+    char *s;
+    int c;
     size_t len = 0;
-    str = realloc(NULL, sizeof(char) * size); //size is start size
-    if (!str)
-        return str;
+    s = realloc(NULL, sizeof(char) * size); //size is start size
+    if (!s)
+        return s;
 
-    while (EOF != (ch = fgetc(fp)) && ch != '\n')
+    while (EOF != (c = fgetc(fp)) && c != '\n')
     {
-        str[len++] = ch;
+        s[len++] = c;
         if (len == size)
         {
-            str = realloc(str, sizeof(char) * (size += 16));
-            if (!str)
-                return str;
+            s = realloc(s, sizeof(char) * (size += 16));
+            if (!s)
+                return s;
         }
     }
-    str[len++] = '\0';
+    s[len++] = '\0';
 
-    return realloc(str, sizeof(char) * (len));
+    return realloc(s, sizeof(char) * (len));
 }
 
 int isValidAldo(char *msg, int len)
