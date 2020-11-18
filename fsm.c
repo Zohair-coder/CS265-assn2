@@ -208,9 +208,9 @@ int isValidDol(char *msg, int len)
 
 void printOK(char *msg)
 {
-    printf("%s OK\n", msg);
+    printf("\033[0m%s \033[0;32mOK\n", msg);
 }
 void printFAIL(char *msg)
 {
-    printf("%s FAIL \n", msg);
+    printf("\033[0m%s \033[0;31mFAIL \n", msg);
 }
