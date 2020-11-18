@@ -3,7 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 
-char *inputString(FILE *fp, size_t size);
 int isValidAldo(char *msg, int len);
 int isValidBar(char *msg, int len);
 int isValidCalma(char *msg, int len);
@@ -18,7 +17,7 @@ int main(int argc, char **argv)
     int is_valid_bar = 0;
     int is_valid_calma = 0;
     int is_valid_dol = 0;
-    const int buffer = 16;
+    size_t buffer = 16;
 
     if (argc > 1)
     {
@@ -30,11 +29,12 @@ int main(int argc, char **argv)
         }
     }
 
-    char *current_message = inputString(fin, 10);
-    while (*current_message != '\0')
+    char *current_message;
+    size_t msg_len = 0;
+    while ((msg_len = getline(&current_message, &buffer, fin)) != -1)
     {
-        size_t msg_len = strlen(current_message);
-
+        current_message[msg_len - 1] = '\0';
+        msg_len--;
         is_valid_aldo = isValidAldo(current_message, msg_len);
         is_valid_bar = isValidBar(current_message, msg_len);
         is_valid_calma = isValidCalma(current_message, msg_len);
@@ -48,42 +48,10 @@ int main(int argc, char **argv)
         {
             printFAIL(current_message);
         }
-
-        free(current_message);
-
-        current_message = inputString(fin, buffer);
     }
     free(current_message);
     current_message = NULL;
     fclose(fin);
-}
-
-// Reads one line from FILE*
-// Creates space for buffer amount of bytes at a time
-// If more bytes are required than buffer, it allocates another 16 bytes
-// Returns char* which needs to be freed once used
-char *inputString(FILE *fp, size_t buffer)
-{
-    char *s;
-    int c;
-    size_t len = 0;
-    s = realloc(NULL, sizeof(char) * buffer);
-    if (!s)
-        return s;
-
-    while (EOF != (c = fgetc(fp)) && c != '\n')
-    {
-        s[len++] = c;
-        if (len == buffer)
-        {
-            s = realloc(s, sizeof(char) * (buffer += 16));
-            if (!s)
-                return s;
-        }
-    }
-    s[len++] = '\0';
-
-    return realloc(s, sizeof(char) * (len));
 }
 
 // checks if the string is a valid Aldo.
