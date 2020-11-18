@@ -1,5 +1,6 @@
 // Zohair ul Hasan
 // Date: 11/19/2020
+// gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
 // ========================
 // Assignment - C Messages
 // ========================
