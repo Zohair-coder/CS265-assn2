@@ -48,11 +48,13 @@ int main(int argc, char **argv)
         {
             printFAIL(current_message);
         }
+
         free(current_message);
-        current_message = NULL;
 
         current_message = inputString(fin, buffer);
     }
+    free(current_message);
+    current_message = NULL;
 }
 
 // Reads one line from FILE*
