@@ -114,6 +114,7 @@ int isValidBar(char *msg, int len)
     int isH;
     int isG;
     int isX;
+
     if (*msg != 'B')
     {
         return 0;
@@ -129,6 +130,7 @@ int isValidBar(char *msg, int len)
         isH = *(msg + i) == 'H';
         isG = *(msg + i) == 'G';
         isX = *(msg + i) == 'X';
+
         if (!isH && !isG && !isX)
         {
             return 0;
@@ -153,7 +155,42 @@ int isValidBar(char *msg, int len)
 
 int isValidCalma(char *msg, int len)
 {
-    return 0;
+    int isR;
+    int isT;
+    int cnt = 0;
+
+    if (*msg != 'C')
+    {
+        return 0;
+    }
+
+    if (*msg == 'C' && len == 1)
+    {
+        return 1;
+    }
+
+    for (int i = 1; i < len; i++)
+    {
+        isR = *(msg + i) == 'R';
+        isT = *(msg + i) == 'T';
+
+        if (!isR && !isT)
+        {
+            return 0;
+        }
+
+        if (isT)
+        {
+            cnt++;
+        }
+    }
+
+    if (cnt % 2 != 0)
+    {
+        return 0;
+    }
+
+    return 1;
 }
 
 int isValidDol(char *msg, int len)
